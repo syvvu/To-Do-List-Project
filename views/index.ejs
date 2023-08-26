@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="/styles/main.css">
+
+<h1>My To-Do List: <%= new Date().toLocaleDateString() %></h1>
+
+<form action="/add" method="POST">
+  <input type="text" name="task" placeholder="What are your goals for today?" autofocus />
+  <input type="submit" value="Submit" style="display: none" />
+</form>
+
+<% if (locals.tasks) { %>
+<ul>
+  <% tasks.forEach((task, index) => { %>
+  <li>
+    <form action="/complete" method="post">
+      <input type="hidden" name="index" value="<%= index %>" />
+      <input type="checkbox" <% if (task.completed) { %> checked <% } %> onchange="this.form.submit()" />
+      <span class="task-description"><%= task.description %></span>
+    </form>
+  </li>
+  <% }); %>
+</ul>
+<% } %>
+
+<form action="/clear" method="POST">
+  <button type="submit">Clear All Tasks</button>
+</form>
